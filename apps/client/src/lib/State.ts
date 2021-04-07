@@ -57,7 +57,7 @@ export const useStore = create<AppState>(
       setUser: (user: LoginResponse) => set(_state => ({ user })),
     }),
     {
-      name: 'interfell-storage', // unique name
+      name: 'app-storage', // unique name
       getStorage: () => sessionStorage, // (optional) by default the 'localStorage' is used
     },
   ),

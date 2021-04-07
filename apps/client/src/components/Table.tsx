@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useTable } from 'react-table'
 import { BookingItem } from 'views/HomePage'
-import { Popover, Button, Input } from 'antd'
+import { Popover, Button, Input, Pagination } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import styled from '@emotion/styled'
-import { Container } from './Container'
+import { CenteredContainer, Container } from './Container'
 import { SecondaryButton } from './Buttons'
 
-type InterfellTableProps = {
+type TableProps = {
   data: BookingItem[]
 }
 
@@ -29,11 +29,15 @@ const PopoverButtonContainer = styled.div({
   marginTop: 10,
 })
 
-export const InterfellTable: React.FC<InterfellTableProps> = ({ data }) => {
+const PAGESIZE = 10
+
+export const Table: React.FC<TableProps> = ({ data }) => {
   const [tableData, setTableData] = useState<BookingItem[]>(data)
+  const [allData, setAllTableData] = useState<BookingItem[]>(data)
   const [visible, setVisible] = useState(true)
   const [currentFilter, setCurrentFilter] = useState('')
   const [currentFilterValue, setCurrentFilterValue] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
 
   const columns = React.useMemo(
     () => [
@@ -78,13 +82,17 @@ export const InterfellTable: React.FC<InterfellTableProps> = ({ data }) => {
   }
 
   const reset = () => {
-    setTableData(data)
+    setAllTableData(data)
+    setTableData(data.slice(0, PAGESIZE))
   }
 
   const findByValue = (type: 'bookingId' | 'bookingPrice') => {
-    setTableData(
-      data.filter(el => el[type] === parseInt(currentFilterValue, 10)),
+    setCurrentPage(1)
+    const filterData = data.filter(
+      el => el[type] === parseInt(currentFilterValue, 10),
     )
+    setAllTableData(filterData)
+    setTableData(filterData.slice(0, PAGESIZE))
     setCurrentFilterValue('')
     hide()
   }
@@ -94,22 +102,36 @@ export const InterfellTable: React.FC<InterfellTableProps> = ({ data }) => {
     lessThan: boolean,
   ) => {
     if (currentFilterValue) {
+      setCurrentPage(1)
       if (lessThan) {
-        setTableData(
-          data.filter(el => parseInt(currentFilterValue, 10) >= el[type]),
+        const filterData = data.filter(
+          el => parseInt(currentFilterValue, 10) >= el[type],
         )
+        setAllTableData(filterData)
+        setTableData(filterData.slice(0, PAGESIZE))
       } else {
-        setTableData(
-          data.filter(el => parseInt(currentFilterValue, 10) <= el[type]),
+        const filterData = data.filter(
+          el => parseInt(currentFilterValue, 10) <= el[type],
         )
+        setAllTableData(filterData)
+        setTableData(filterData.slice(0, PAGESIZE))
       }
       setCurrentFilterValue('')
     }
     hide()
   }
 
+  const pageChangeHandler = (page: number) => {
+    setCurrentPage(page)
+    const from = PAGESIZE * (page - 1)
+    const to = PAGESIZE * page
+    const pageData = allData.slice(from, to)
+    setTableData(pageData)
+  }
+
   useEffect(() => {
-    setTableData(data)
+    setTableData(data.slice(0, PAGESIZE))
+    setAllTableData(data)
   }, [data])
   return (
     <TableContainer>
@@ -256,6 +278,15 @@ export const InterfellTable: React.FC<InterfellTableProps> = ({ data }) => {
           })}
         </tbody>
       </table>
+      <br />
+      <CenteredContainer>
+        <Pagination
+          pageSize={PAGESIZE}
+          current={currentPage}
+          total={Math.ceil(allData.length / PAGESIZE)}
+          onChange={pageChangeHandler}
+        />
+      </CenteredContainer>
     </TableContainer>
   )
 }

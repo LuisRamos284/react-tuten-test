@@ -5,7 +5,7 @@ import { BookingObject } from 'lib/types/BookingObject'
 import styled from '@emotion/styled'
 import { PrimaryButton } from 'components/Buttons'
 
-import { InterfellTable } from 'components/Table'
+import { Table } from 'components/Table'
 import { format, toDate } from 'date-fns'
 import { APP_URL, TUTEN_APP_TYPE, TUTEN_ENDPOINT } from 'env'
 
@@ -73,7 +73,7 @@ export const HomePage = () => {
   return (
     <PageContainer>
       <TableContainer>
-        <InterfellTable data={booking} />
+        <Table data={booking} />
       </TableContainer>
       <PrimaryButton onClick={() => Store.setUser(userInitialValues)}>
         LOG OUT
