@@ -1,7 +1,7 @@
 {
-  "name": "interfell",
+  "name": "test",
   "version": "1.0.0",
-  "description": "Interfell Full Stack Developer Test",
+  "description": "Full Stack Developer Test",
   "main": "index.js",
   "author": "Luis Ramos",
   "license": "MIT",
