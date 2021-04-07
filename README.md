@@ -7,12 +7,6 @@ This is a ready-to-go monorepo template for an react app. It features a login an
     * react-table-v7 Headless lib for tables in react
     * Styled Components
     * date-fns
-
-```bash
-$ cd/apps/client
-$ yarn start
-```
-
 ## Structure
 
 ```bash
