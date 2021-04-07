@@ -1,0 +1,7 @@
+.vscode/.react
+node_modules/**/*
+node_modules*
+build*
+dist*
+__generated__/**/*
+database

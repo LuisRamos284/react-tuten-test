@@ -1,0 +1,40 @@
+{
+  "name": "interfell",
+  "version": "1.0.0",
+  "description": "Interfell Full Stack Developer Test",
+  "main": "index.js",
+  "author": "Luis Ramos",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "setup": "yarn workspaces run install",
+    "list": "yarn workspaces list",
+    "prettier": "prettier --write '**/*.+(json|ts|tsx|js|jsx)'",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "start:app": "yarn workspace @test/client start"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
+    "eslint-config-universe": "^7.0.1",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "typescript": "4.2.3"
+  }
+}
