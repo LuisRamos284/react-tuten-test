@@ -82,6 +82,7 @@ export const Table: React.FC<TableProps> = ({ data }) => {
   }
 
   const reset = () => {
+    setCurrentPage(1)
     setAllTableData(data)
     setTableData(data.slice(0, PAGESIZE))
   }
